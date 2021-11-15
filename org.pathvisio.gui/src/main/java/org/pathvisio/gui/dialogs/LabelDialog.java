@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -35,43 +35,34 @@ import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.pathvisio.model.DataNode;
-import org.pathvisio.model.Label;
-import org.pathvisio.model.PathwayElement;
+import org.pathvisio.core.model.PathwayElement;
 import org.pathvisio.gui.SwingEngine;
 import org.pathvisio.gui.util.FontChooser;
 
 /**
  * Dialog to modify label specific properties
- * 
  * @author thomas
  *
  */
-public class LabelDialog extends PathwayObjectDialog {
+public class LabelDialog extends PathwayElementDialog {
 	JTextArea text;
 	JLabel fontPreview;
 
-	protected LabelDialog(SwingEngine swingEngine, PathwayElement e, boolean readonly, Frame frame,
-			Component locationComp) {
+	protected LabelDialog(SwingEngine swingEngine, PathwayElement e, boolean readonly, Frame frame, Component locationComp) {
 		super(swingEngine, e, readonly, frame, "Label properties", locationComp);
 		text.requestFocus();
 	}
 
-	/**
-	 * Get the pathway element for this dialog
-	 */
-	protected Label getInput() {
-		return (Label) super.getInput();
-	}
-
 	protected void refresh() {
 		super.refresh();
-		if (getInput() != null) {
-			Label input = getInput();
+		if(getInput() != null) {
+			PathwayElement input = getInput();
 			text.setText(input.getTextLabel());
-			int style = input.getFontWeight() ? Font.BOLD : Font.PLAIN;
-			style |= input.getFontStyle() ? Font.ITALIC : Font.PLAIN;
-			Font f = new Font(input.getFontName(), style, (int) (input.getFontSize()));
+			int style = input.isBold() ? Font.BOLD : Font.PLAIN;
+			style |= input.isItalic() ? Font.ITALIC : Font.PLAIN;
+			Font f = new Font(
+					input.getFontName(), style, (int)(input.getMFontSize())
+			);
 			fontPreview.setFont(f);
 			fontPreview.setText(f.getName());
 		} else {
@@ -84,9 +75,11 @@ public class LabelDialog extends PathwayObjectDialog {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 
-		// Search panel elements
-		panel.setLayout(new FormLayout("4dlu, pref, 4dlu, pref, 4dlu, pref, pref:grow, 4dlu",
-				"4dlu, pref, 4dlu, fill:pref:grow, 4dlu, pref, 4dlu"));
+		//Search panel elements
+		panel.setLayout(new FormLayout(
+			"4dlu, pref, 4dlu, pref, 4dlu, pref, pref:grow, 4dlu",
+			"4dlu, pref, 4dlu, fill:pref:grow, 4dlu, pref, 4dlu"
+		));
 
 		JLabel label = new JLabel("Text label:");
 		text = new JTextArea();
@@ -96,14 +89,13 @@ public class LabelDialog extends PathwayObjectDialog {
 		final JButton font = new JButton("...");
 		font.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Font f = FontChooser.showDialog(null, (Component) e.getSource(), fontPreview.getFont());
-				if (f != null) {
-					Label input = getInput();
-					if (input != null) {
+				Font f = FontChooser.showDialog(null, (Component)e.getSource(), fontPreview.getFont());
+				if(f != null) {
+					if(input != null) {
 						input.setFontName(f.getFamily());
-						input.setFontWeight(f.isBold());
-						input.setFontStyle(f.isItalic());
-						input.setFontSize(f.getSize());
+						input.setBold(f.isBold());
+						input.setItalic(f.isItalic());
+						input.setMFontSize(f.getSize());
 						fontPreview.setText(f.getFamily());
 						fontPreview.setFont(f);
 					}
@@ -122,18 +114,14 @@ public class LabelDialog extends PathwayObjectDialog {
 			public void changedUpdate(DocumentEvent e) {
 				saveText();
 			}
-
 			public void insertUpdate(DocumentEvent e) {
 				saveText();
 			}
-
 			public void removeUpdate(DocumentEvent e) {
 				saveText();
 			}
-
 			private void saveText() {
-				if (getInput() != null)
-					getInput().setTextLabel(text.getText());
+				if(getInput() != null) getInput().setTextLabel(text.getText());
 			}
 		});
 		text.setEnabled(!readonly);

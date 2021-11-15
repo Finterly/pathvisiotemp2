@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -22,11 +22,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.pathvisio.model.PathwayElement;
-import org.pathvisio.model.PathwayObject;
+import org.pathvisio.core.model.PathwayElement;
 
 public abstract class PathwayElementPanel extends JPanel {
-	private PathwayObject input;
+	private PathwayElement input;
 	JTabbedPane dialogPane;
 	boolean readonly;
 
@@ -34,11 +33,11 @@ public abstract class PathwayElementPanel extends JPanel {
 		this.readonly = readonly;
 	}
 
-	protected PathwayObject getInput() {
+	protected PathwayElement getInput() {
 		return input;
 	}
 
-	public void setInput(PathwayObject e) {
+	public void setInput(PathwayElement e) {
 		input = e;
 		refresh();
 	}

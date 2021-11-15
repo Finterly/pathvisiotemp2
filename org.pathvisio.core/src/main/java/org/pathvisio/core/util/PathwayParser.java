@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.bridgedb.DataSource;
 import org.pathvisio.core.data.XrefWithSymbol;
-import org.pathvisio.debug.Logger;
+import org.pathvisio.core.debug.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -35,8 +35,6 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * This sax handler can be used to quickly parse pathway information from a gpml
  * file
- * 
- * @author unknown
  */
 public class PathwayParser extends DefaultHandler {
 	/**
@@ -95,7 +93,7 @@ public class PathwayParser extends DefaultHandler {
 		} else if (localName.equals("Xref")) {
 			String sysName = attributes.getValue("Database");
 			assert (sysName != null);
-			currentDs = DataSource.getExistingByFullName(sysName);
+			currentDs = DataSource.getByFullName(sysName);
 			currentId = attributes.getValue("ID");
 			assert (currentId != null);
 

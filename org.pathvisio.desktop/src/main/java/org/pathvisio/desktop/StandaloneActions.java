@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -36,11 +36,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import org.pathvisio.core.ApplicationEvent;
-import org.pathvisio.core.Globals;
 import org.pathvisio.core.Engine.ApplicationEventListener;
+import org.pathvisio.core.Globals;
 import org.pathvisio.core.util.Resources;
-import org.pathvisio.core.view.model.VPathwayModel;
-import org.pathvisio.core.view.model.ViewActions;
+import org.pathvisio.core.view.VPathway;
+import org.pathvisio.core.view.ViewActions;
 import org.pathvisio.desktop.dialog.RunLocalPluginDialog;
 import org.pathvisio.gui.SwingEngine;
 
@@ -89,7 +89,7 @@ public class StandaloneActions implements ApplicationEventListener
 
 	public void applicationEvent(ApplicationEvent e) {
 		if(e.getType() == ApplicationEvent.Type.VPATHWAY_CREATED) {
-			ViewActions va = ((VPathwayModel)e.getSource()).getViewActions();
+			ViewActions va = ((VPathway)e.getSource()).getViewActions();
 			va.registerToGroup(printAction, ViewActions.GROUP_ENABLE_VPATHWAY_LOADED);
 			va.resetGroupStates();
 		}
@@ -195,9 +195,9 @@ public class StandaloneActions implements ApplicationEventListener
 
 		public void actionPerformed(ActionEvent e)
 		{
-			if (swingEngine.canDiscardPathwayModel())
+			if (swingEngine.canDiscardPathway())
 			{
-				swingEngine.openPathwayModel();
+				swingEngine.openPathway();
 			}
 		}
 	}
@@ -224,9 +224,9 @@ public class StandaloneActions implements ApplicationEventListener
 
 		public void actionPerformed(ActionEvent e)
 		{
-			if (swingEngine.canDiscardPathwayModel())
+			if (swingEngine.canDiscardPathway())
 			{
-				swingEngine.newPathwayModel();
+				swingEngine.newPathway();
 			}
 		}
 	}
@@ -347,7 +347,7 @@ public class StandaloneActions implements ApplicationEventListener
 					if (pageIndex > 0){
 						return Printable.NO_SUCH_PAGE;
 					}
-					VPathwayModel vPathway = swingEngine.getEngine().getActiveVPathwayModel();
+					VPathway vPathway = swingEngine.getEngine().getActiveVPathway();
 					Graphics2D g2 = (Graphics2D) graphics;
 					double xScale = pageFormat.getImageableWidth()/vPathway.getVWidth();
 					double yScale = pageFormat.getImageableHeight()/vPathway.getVHeight();

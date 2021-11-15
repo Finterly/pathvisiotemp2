@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -31,15 +31,13 @@ import javax.swing.table.TableCellRenderer;
 
 import org.pathvisio.core.ApplicationEvent;
 import org.pathvisio.core.Engine.ApplicationEventListener;
-import org.pathvisio.model.PathwayElement;
-import org.pathvisio.model.PathwayObject;
-import org.pathvisio.event.PathwayObjectEvent;
-import org.pathvisio.event.PathwayObjectListener;
-import org.pathvisio.core.view.model.VPathwayModel;
-import org.pathvisio.core.view.model.VPathwayObject;
-import org.pathvisio.core.view.model.SelectionBox.SelectionEvent;
-import org.pathvisio.core.view.model.SelectionBox.SelectionListener;
-import org.pathvisio.core.view.model.VPathwayElement;
+import org.pathvisio.core.model.PathwayElement;
+import org.pathvisio.core.model.PathwayElementEvent;
+import org.pathvisio.core.model.PathwayElementListener;
+import org.pathvisio.core.view.Graphics;
+import org.pathvisio.core.view.SelectionBox.SelectionEvent;
+import org.pathvisio.core.view.SelectionBox.SelectionListener;
+import org.pathvisio.core.view.VPathway;
 import org.pathvisio.gui.SwingEngine;
 
 /**
@@ -52,7 +50,7 @@ import org.pathvisio.gui.SwingEngine;
  * is used as row set.
  */
 public class PathwayTableModel extends AbstractTableModel implements SelectionListener,
-									PathwayObjectListener,
+									PathwayElementListener,
 									ApplicationEventListener {
 
 	private JTable table;
@@ -68,7 +66,7 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 		shownProperties = new ArrayList<PropertyView>();
 		this.swingEngine = swingEngine;
 		swingEngine.getEngine().addApplicationEventListener(this);
-		VPathwayModel vp = swingEngine.getEngine().getActiveVPathwayModel();
+		VPathway vp = swingEngine.getEngine().getActiveVPathway();
 		if(vp != null) vp.addSelectionListener(this);
 	}
 
@@ -110,7 +108,6 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 		}
 	}
 
-	// TODO PathwayObject or Element? 
 	private void addInput(PathwayElement pwElm) {
 		stopEditing();
 		//System.err.println("Input added");
@@ -143,7 +140,7 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 		{
 			PropertyView tp = propertyValues.get(o);
 			if(tp == null) {
-				propertyValues.put(o, tp = new PropertyView(swingEngine.getEngine().getActiveVPathwayModel(), o));
+				propertyValues.put(o, tp = new PropertyView(swingEngine.getEngine().getActiveVPathway(), o));
 			}
 			if(remove) {
 				tp.removeElement(e);
@@ -196,7 +193,7 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 			PropertyView p = getPropertyAt(rowIndex);
 			p.setValue(aValue);
 		}
-		swingEngine.getEngine().getActiveVPathwayModel().redraw();
+		swingEngine.getEngine().getActiveVPathway().redrawDirtyRect();
 	}
 
 	public String getColumnName(int column) {
@@ -206,22 +203,21 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return columnIndex == 1 &&
-				swingEngine.getEngine().hasVPathwayModel() &&
-				swingEngine.getEngine().getActiveVPathwayModel().isEditMode();
+				swingEngine.getEngine().hasVPathway() &&
+				swingEngine.getEngine().getActiveVPathway().isEditMode();
 	}
 
 	public void selectionEvent(SelectionEvent e) {
 		switch(e.type) {
 		case SelectionEvent.OBJECT_ADDED:
 			//System.err.println("OBJECT ADDED");
-			//TODO PathwayElement or Object? 
-			if(e.affectedObject instanceof VPathwayElement)
-				addInput(((VPathwayElement)e.affectedObject).getPathwayObject());
+			if(e.affectedObject instanceof Graphics)
+				addInput(((Graphics)e.affectedObject).getPathwayElement());
 			break;
 		case SelectionEvent.OBJECT_REMOVED:
 			//System.err.println("OBJECT REMOVED");
-			if(e.affectedObject instanceof VPathwayElement)
-				removeInput(((VPathwayElement)e.affectedObject).getPathwayObject());
+			if(e.affectedObject instanceof Graphics)
+				removeInput(((Graphics)e.affectedObject).getPathwayElement());
 			break;
 		case SelectionEvent.SELECTION_CLEARED:
 			//System.err.println("CLEARED");
@@ -250,7 +246,7 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 		return null;
 	}
 
-	public void gmmlObjectModified(PathwayObjectEvent e) {
+	public void gmmlObjectModified(PathwayElementEvent e) {
 		refresh();
 	}
 
@@ -259,10 +255,10 @@ public class PathwayTableModel extends AbstractTableModel implements SelectionLi
 		switch(e.getType())
 		{
 		case VPATHWAY_CREATED:
-			((VPathwayModel)e.getSource()).addSelectionListener(this);
+			((VPathway)e.getSource()).addSelectionListener(this);
 			break;
 		case VPATHWAY_DISPOSED:
-			((VPathwayModel)e.getSource()).removeSelectionListener(this);
+			((VPathway)e.getSource()).removeSelectionListener(this);
 			reset(); // clear selected set
 			break;
 		}

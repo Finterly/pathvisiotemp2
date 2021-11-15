@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -18,7 +18,7 @@ package org.pathvisio.gui.handler;
 
 import java.text.NumberFormat;
 
-import org.pathvisio.prop.StaticPropertyType;
+import org.pathvisio.core.model.StaticPropertyType;
 
 /**
  * This class knows how to handle angles.
@@ -29,7 +29,7 @@ import org.pathvisio.prop.StaticPropertyType;
 public class AngleHandler extends NumberHandler {
 
 	public AngleHandler() {
-		super(StaticPropertyType.ROTATION, Double.class, NumberFormat.getNumberInstance());
+		super(StaticPropertyType.ANGLE, Double.class, NumberFormat.getNumberInstance());
 	}
 
 

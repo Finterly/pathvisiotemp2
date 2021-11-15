@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -20,8 +20,8 @@ import java.io.File;
 import java.util.List;
 
 import org.pathvisio.core.data.XrefWithSymbol;
-import org.pathvisio.model.PathwayModel;
-import org.pathvisio.util.Utils;
+import org.pathvisio.core.model.Pathway;
+import org.pathvisio.core.util.Utils;
 
 /**
  * The result of a pathway search.
@@ -76,7 +76,7 @@ public class MatchResult implements RowWithProperties<SearchTableModel.Column>
 	// names found (when searching by symbol
 	List<String> getNamesFound() { return namesFound; }
 
-	public PathwayModel open()
+	public Pathway open()
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -27,12 +27,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.pathvisio.model.PathwayModel;
-import org.pathvisio.model.PathwayElement;
-import org.pathvisio.prop.PropertyType;
-import org.pathvisio.prop.StaticPropertyType;
+import org.pathvisio.core.model.Pathway;
+import org.pathvisio.core.model.PathwayElement;
+import org.pathvisio.core.model.PropertyType;
+import org.pathvisio.core.model.StaticPropertyType;
 import org.pathvisio.gui.SwingEngine;
-import org.pathvisio.gui.dialogs.PathwayObjectDialog;
+import org.pathvisio.gui.dialogs.PathwayElementDialog;
 
 /**
  * This class knows how to edit comments.
@@ -57,7 +57,7 @@ public class CommentsHandler extends AbstractCellEditor implements ContextSensit
 	//-- TypeHandler methods --//
 
 	public PropertyType getType() {
-		return StaticPropertyType.COMMENT;
+		return StaticPropertyType.COMMENTS;
 	}
 
 	public TableCellRenderer getLabelRenderer() {
@@ -76,7 +76,7 @@ public class CommentsHandler extends AbstractCellEditor implements ContextSensit
 	//-- ContextSensitiveEditor methods --//
 
 	public void updateEditor(SwingEngine aSwingEngine, Collection<PathwayElement> elements,
-			PathwayModel pathway, PropertyView propHandler)
+			Pathway pathway, PropertyView propHandler)
 	{
 		// can only edit comments for a single item at a time
 		canEdit = propHandler.elements.size() == 1;
@@ -106,8 +106,8 @@ public class CommentsHandler extends AbstractCellEditor implements ContextSensit
 	public void actionPerformed(ActionEvent e) {
 
 		if(canEdit && BUTTON_COMMAND.equals(e.getActionCommand())) {
-			PathwayObjectDialog d = swingEngine.getPopupDialogHandler().getInstance(currentElement, false, null, button);
-			d.selectPathwayElementPanel(PathwayObjectDialog.TAB_COMMENTS);
+			PathwayElementDialog d = swingEngine.getPopupDialogHandler().getInstance(currentElement, false, null, button);
+			d.selectPathwayElementPanel(PathwayElementDialog.TAB_COMMENTS);
 			d.setVisible(true);
 		}
 		fireEditingCanceled();  // always fire - PathwayElementDialog saves data itself

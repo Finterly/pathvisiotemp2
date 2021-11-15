@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -37,120 +37,124 @@ import javax.swing.table.TableCellRenderer;
 
 import org.bridgedb.DataSource;
 import org.bridgedb.bio.Organism;
-import org.pathvisio.model.type.DataNodeType;
-import org.pathvisio.model.PathwayModel;
-import org.pathvisio.model.DataNode;
-import org.pathvisio.model.PathwayElement;
-import org.pathvisio.prop.PropertyType;
-import org.pathvisio.prop.StaticPropertyType;
+import org.pathvisio.core.model.DataNodeType;
+import org.pathvisio.core.model.Pathway;
+import org.pathvisio.core.model.PathwayElement;
+import org.pathvisio.core.model.PropertyType;
+import org.pathvisio.core.model.StaticPropertyType;
 import org.pathvisio.gui.SwingEngine;
 import org.pathvisio.gui.util.PermissiveComboBox;
 
 /**
- * This class knows how to handle a datasource, which is context sensitive and
- * needs to be updated before use.
+ * This class knows how to handle a datasource, which is context sensitive and needs to be updated before use.
  */
-public class DataSourceHandler extends DefaultCellEditor
-		implements ContextSensitiveEditor, TableCellRenderer, TypeHandler {
+public class DataSourceHandler extends DefaultCellEditor implements ContextSensitiveEditor, TableCellRenderer,
+		TypeHandler {
 	private PermissiveComboBox renderer;
 	private JComboBox editor;
 
 	public DataSourceHandler() {
 		super(new JComboBox(new String[0]));
-		editor = (JComboBox) getComponent();
+		editor = (JComboBox)getComponent();
 		editor.setBorder(BorderFactory.createEmptyBorder());
 		renderer = new PermissiveComboBox();
 	}
 
-	// -- ContextSensitiveEditor methods --//
+	//-- ContextSensitiveEditor methods --//
 
-	// TODO: make part of org.bridgedb.DataSource
+	//TODO: make part of org.bridgedb.DataSource
 	/**
 	 * returns a filtered subset of available datasources.
-	 * 
 	 * @param type Filter for specified type. If null, don't filter on primary-ness.
-	 * @param o    Filter for specified organism. If null, don't filter on organism.
+	 * @param o Filter for specified organism. If null, don't filter on organism.
 	 * @return filtered set.
 	 */
-	public static Set<DataSource> getFilteredSetAlt(Boolean primary, String[] type, Object o, Boolean interaction) {
+	public static Set<DataSource> getFilteredSetAlt (Boolean primary, String[] type, Object o, Boolean interaction)
+	{
 		final Set<DataSource> result = new HashSet<DataSource>();
 		final Set<String> types = new HashSet<String>();
-		if (type != null)
-			types.addAll(Arrays.asList(type));
-		for (DataSource ds : DataSource.getDataSources()) {
-			if ((primary == null || primary == ds.isPrimary()) && (type == null || types.contains(ds.getType()))
-					&& (o == null || ds.getOrganism() == null || o == ds.getOrganism())) {
-				result.add(ds);
+		if (type != null) types.addAll(Arrays.asList(type));
+		for (DataSource ds : DataSource.getDataSources())
+		{
+			if ((primary == null || primary == ds.isPrimary()) &&
+				(type == null || types.contains(ds.getType())) &&
+				(o == null || ds.getOrganism() == null || o == ds.getOrganism())) {
+				result.add (ds);
 			}
 		}
 		return result;
 	}
 
 	public static final Map<String, String[]> DSTYPE_BY_DNTYPE = new HashMap<String, String[]>();
-	static {
-		DSTYPE_BY_DNTYPE.put(DataNodeType.UNDEFINED.getName(), null);
-		DSTYPE_BY_DNTYPE.put(DataNodeType.METABOLITE.getName(), new String[] { "metabolite" });
-		DSTYPE_BY_DNTYPE.put(DataNodeType.COMPLEX.getName(), null);
-		DSTYPE_BY_DNTYPE.put(DataNodeType.PATHWAY.getName(), new String[] { "pathway" });
-		DSTYPE_BY_DNTYPE.put(DataNodeType.PROTEIN.getName(), new String[] { "gene", "protein" });
-		DSTYPE_BY_DNTYPE.put(DataNodeType.GENEPRODUCT.getName(), new String[] { "gene", "protein" });
-		DSTYPE_BY_DNTYPE.put(DataNodeType.RNA.getName(), new String[] { "gene", "protein" });
+	static
+	{
+		DSTYPE_BY_DNTYPE.put (DataNodeType.UNKOWN.getName(), null);
+		DSTYPE_BY_DNTYPE.put (DataNodeType.METABOLITE.getName(), new String[] {"metabolite"});
+		DSTYPE_BY_DNTYPE.put (DataNodeType.COMPLEX.getName(), null);
+		DSTYPE_BY_DNTYPE.put (DataNodeType.PATHWAY.getName(), new String[] {"pathway"});
+		DSTYPE_BY_DNTYPE.put (DataNodeType.PROTEIN.getName(), new String[] {"gene", "protein"});
+		DSTYPE_BY_DNTYPE.put (DataNodeType.GENEPRODUCT.getName(), new String[] {"gene", "protein"});
+		DSTYPE_BY_DNTYPE.put (DataNodeType.RNA.getName(), new String[] {"gene", "protein"});
 	}
 
-	public void updateEditor(SwingEngine swingEngine, Collection<PathwayElement> elements, PathwayModel pathway,
-			PropertyView propHandler) {
+	public void updateEditor(SwingEngine swingEngine, Collection<PathwayElement> elements,
+			Pathway pathway, PropertyView propHandler)
+	{
 		boolean first = true;
 		String dnType = null;
-		for (PathwayElement element : elements) {
-			if (first) {
-				dnType = ((DataNode) element).getType().getName();
+		for (PathwayElement element : elements)
+		{
+			if (first)
+			{
+				dnType = element.getDataNodeType();
 				first = false;
-			} else {
-				if (dnType != ((DataNode) element).getType().getName())// mix of types
+			}
+			else
+			{
+				if (dnType != element.getDataNodeType())  // mix of types
 					dnType = null;
 			}
 		}
-
+		
 		SortedSet<DataSource> dataSources = new TreeSet<DataSource>(new Comparator<DataSource>() {
 			public int compare(DataSource arg0, DataSource arg1) {
 				return ("" + arg0.getFullName()).toLowerCase().compareTo(("" + arg1.getFullName()).toLowerCase());
 			}
 		});
-
+		
 		String[] dsType = null; // null is default: no filtering
-		if (DSTYPE_BY_DNTYPE.containsKey(dnType))
-			dsType = DSTYPE_BY_DNTYPE.get(dnType);
+		if (DSTYPE_BY_DNTYPE.containsKey(dnType)) dsType = DSTYPE_BY_DNTYPE.get(dnType);
 
-		dataSources.addAll(
-				getFilteredSetAlt(true, dsType, Organism.fromLatinName(pathway.getPathway().getOrganism()), false));
+		dataSources.addAll(getFilteredSetAlt(true, dsType, 
+				Organism.fromLatinName(pathway.getMappInfo().getOrganism()),false));
 
 		if (isDifferent(dataSources)) {
 			renderer.removeAllItems();
 			editor.removeAllItems();
 			for (DataSource s : dataSources) {
-				String name = value2label(s);
+				String name = value2label (s);
 				renderer.addItem(name);
 				editor.addItem(name);
 			}
 		}
 	}
-
-	private DataSource label2value(String label) {
+	
+	private DataSource label2value(String label)
+	{
 		if (DataSource.getFullNames().contains(label))
-			return DataSource.getExistingByFullName(label);
+			return DataSource.getByFullName(label);
 		else
-			return DataSource.getExistingBySystemCode(label);
+			return DataSource.getBySystemCode(label);
 	}
 
-	private String value2label(DataSource value) {
-		if (value == null)
-			return null;
+	private String value2label(DataSource value)
+	{
+		if (value == null) return null;
 		String result = value.getFullName();
-		if (result == null)
-			result = value.getSystemCode();
+		if (result == null) result = value.getSystemCode();
 		return result;
 	}
-
+	
 	private boolean isDifferent(SortedSet<DataSource> dataSources) {
 
 		if (editor.getItemCount() != dataSources.size()) {
@@ -165,7 +169,9 @@ public class DataSourceHandler extends DefaultCellEditor
 		return false;
 	}
 
-	// -- TypeHandler methods --//
+
+
+	//-- TypeHandler methods --//
 
 	public PropertyType getType() {
 		return StaticPropertyType.DATASOURCE;
@@ -183,7 +189,8 @@ public class DataSourceHandler extends DefaultCellEditor
 		return this;
 	}
 
-	// -- TableCellRenderer methods --//
+
+	//-- TableCellRenderer methods --//
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
@@ -196,21 +203,22 @@ public class DataSourceHandler extends DefaultCellEditor
 			renderer.setBackground(table.getBackground());
 		}
 
-		Object o = value2label((DataSource) value);
+		Object o = value2label((DataSource)value);
 		renderer.setSelectedItem(o);
 		return renderer;
 	}
 
-	// -- TableCellEditor methods --//
+
+	//-- TableCellEditor methods --//
 
 	public Object getCellEditorValue() {
 
-		return label2value((String) editor.getSelectedItem());
+		return label2value((String)editor.getSelectedItem());
 	}
 
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
-		editor.setSelectedItem(value2label((DataSource) value));
+		editor.setSelectedItem(value2label((DataSource)value));
 		return editor;
 	}
 

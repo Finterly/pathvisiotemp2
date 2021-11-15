@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -19,23 +19,25 @@ package org.pathvisio.desktop.util;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 
-import org.pathvisio.debug.Logger;
+import org.pathvisio.core.debug.Logger;
 
 /**
- * Contains a utility function to insert a piece of text at the cursor in a
- * TextField.
+ * Contains a utility function to insert a piece of text at the cursor in a TextField.
  */
-public class TextFieldUtils {
+public class TextFieldUtils
+{
 	/**
-	 * Inserts text at cursor, ensures that there are spaces around it TODO: don't
-	 * insert spaces when not necessary.
+	 * Inserts text at cursor, ensures that there are spaces around it
+	 *	TODO: don't insert spaces when not necessary.
 	 */
-	public static void insertAtCursorWithSpace(JTextField field, String toInsert) {
-		try {
-			field.getDocument().insertString(field.getCaretPosition(), " " + toInsert + " ", null);
-		} catch (BadLocationException e) {
-			Logger.log.error("BadLocationException", e);
+	public static void insertAtCursorWithSpace (JTextField field, String toInsert)
+	{
+		try
+		{
+			field.getDocument().insertString(
+					field.getCaretPosition(), " " + toInsert + " ", null);
 		}
+		catch (BadLocationException e) { Logger.log.error ("BadLocationException", e); }
 	}
 
 }

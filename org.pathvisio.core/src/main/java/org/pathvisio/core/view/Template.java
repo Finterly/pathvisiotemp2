@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -18,10 +18,8 @@ package org.pathvisio.core.view;
 
 import java.net.URL;
 
-import org.pathvisio.model.PathwayModel;
-import org.pathvisio.core.view.model.VElement;
-import org.pathvisio.core.view.model.VPathwayModel;
-import org.pathvisio.model.PathwayElement;
+import org.pathvisio.core.model.Pathway;
+import org.pathvisio.core.model.PathwayElement;
 
 
 /**
@@ -38,14 +36,14 @@ public interface Template {
 	 * @param my	The y coordinate of the base point
 	 * @return A list with the elements that where added by the template
 	 */
-	PathwayElement[] addElements(PathwayModel p, double mx, double my);
+	PathwayElement[] addElements(Pathway p, double mx, double my);
 
 	/**
 	 * Get the element that will be used to drag the template after
 	 * adding (e.g. the South-East handle in case of a DataNode)
 	 * @return The drag element of the last added template graphics
 	 */
-	VElement getDragElement(VPathwayModel vp);
+	VPathwayElement getDragElement(VPathway vp);
 
 	/**
 	 * Get the name for this template

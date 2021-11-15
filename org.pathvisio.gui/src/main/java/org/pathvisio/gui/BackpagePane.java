@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -28,46 +28,43 @@ import org.bridgedb.Xref;
 import org.pathvisio.core.ApplicationEvent;
 import org.pathvisio.core.Engine;
 import org.pathvisio.core.Engine.ApplicationEventListener;
-import org.pathvisio.model.PathwayElement;
-import org.pathvisio.model.PathwayObject;
-import org.pathvisio.model.Xrefable;
-import org.pathvisio.event.PathwayObjectEvent;
-import org.pathvisio.event.PathwayObjectListener;
-import org.pathvisio.prop.StaticProperty;
-import org.pathvisio.core.view.model.VElement;
-import org.pathvisio.core.view.model.VPathwayModel;
-import org.pathvisio.core.view.model.VPathwayObject;
-import org.pathvisio.core.view.model.SelectionBox.SelectionEvent;
-import org.pathvisio.core.view.model.SelectionBox.SelectionListener;
+import org.pathvisio.core.model.PathwayElement;
+import org.pathvisio.core.model.PathwayElementEvent;
+import org.pathvisio.core.model.PathwayElementListener;
+import org.pathvisio.core.model.StaticProperty;
+import org.pathvisio.core.view.Graphics;
+import org.pathvisio.core.view.SelectionBox.SelectionEvent;
+import org.pathvisio.core.view.SelectionBox.SelectionListener;
+import org.pathvisio.core.view.VPathway;
+import org.pathvisio.core.view.VPathwayElement;
 
 /**
- * The backpage panel for the Swing version of PathVisio. This pane shows
- * annotation information from the individual Databases when a datanode or
- * interaction is clicked.
+ * The backpage panel for the Swing version of PathVisio. This pane shows annotation
+ * information from the individual Databases when a datanode or interaction is clicked.
  * <p>
- * BackpagePane listens to selection events and other event types to update its
- * contents when necessary.
+ * BackpagePane listens to selection events and other event types to update
+ * its contents when necessary.
  * <p>
- * It uses a BackpageTextProvider to generate the html content, which has to be
- * inserted at construction time. Backpage generation may take a noticable
- * amount of time, therefore this task is always done in a background thread.
+ * It uses a BackpageTextProvider to generate the html content, which
+ * has to be inserted at construction time. Backpage generation may take
+ * a noticable amount of time, therefore this task is always done in a background thread.
  * <p>
- * It is the responsibility of the instantiator to also call the dispose()
- * method, otherwise the background thread is not killed.
+ * It is the responsibility of the instantiator to also call the dispose() method,
+ * otherwise the background thread is not killed.
  */
-public class BackpagePane extends JEditorPane
-		implements ApplicationEventListener, SelectionListener, PathwayObjectListener {
+public class BackpagePane extends JEditorPane implements ApplicationEventListener, SelectionListener, PathwayElementListener
+{
 	private final BackpageTextProvider bpt;
 	private Engine engine;
 	private ExecutorService executor;
 
-	public BackpagePane(BackpageTextProvider bpt, Engine engine) {
+	public BackpagePane(BackpageTextProvider bpt, Engine engine)
+	{
 		super();
 
 		engine.addApplicationEventListener(this);
-		VPathwayModel vp = engine.getActiveVPathwayModel();
-		if (vp != null)
-			vp.addSelectionListener(this);
+		VPathway vp = engine.getActiveVPathway();
+		if(vp != null) vp.addSelectionListener(this);
 
 		this.engine = engine;
 
@@ -77,12 +74,13 @@ public class BackpagePane extends JEditorPane
 
 		executor = Executors.newSingleThreadExecutor();
 
-		// Workaround for #1313
-		// Cause is java bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6993691
+		//Workaround for #1313
+		//Cause is java bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6993691
 		setEditorKit(new HTMLEditorKit() {
 			protected Parser getParser() {
 				try {
-					Class c = Class.forName("javax.swing.text.html.parser.ParserDelegator");
+					Class c = Class
+							.forName("javax.swing.text.html.parser.ParserDelegator");
 					Parser defaultParser = (Parser) c.newInstance();
 					return defaultParser;
 				} catch (Throwable e) {
@@ -92,18 +90,17 @@ public class BackpagePane extends JEditorPane
 		});
 	}
 
-	private PathwayObject input;
+	private PathwayElement input;
 
-	public void setInput(final PathwayObject e) {
-		// System.err.println("===== SetInput Called ==== " + e);
-		if (e == input)
-			return; // Don't set same input twice
+	public void setInput(final PathwayElement e)
+	{
+		//System.err.println("===== SetInput Called ==== " + e);
+		if(e == input) return; //Don't set same input twice
 
-		// Remove pathwaylistener from old input
-		if (input != null)
-			input.removeListener(this);
+		//Remove pathwaylistener from old input
+		if(input != null) input.removeListener(this);
 
-		if (e == null) {
+		if(e == null) {
 			input = null;
 			setText(bpt.getBackpageHTML(null));
 		} else {
@@ -113,18 +110,22 @@ public class BackpagePane extends JEditorPane
 		}
 	}
 
-	private void doQuery() {
+	private void doQuery()
+	{
 		setText("Loading");
-		currRef = ((Xrefable) input).getXref();
+		currRef = input.getXref();
 
-		executor.execute(new Runnable() {
-			public void run() {
-				if (input == null)
-					return;
+		executor.execute(new Runnable()
+		{
+			public void run()
+			{
+				if(input == null) return;
 				final String txt = bpt.getBackpageHTML(input);
 
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					public void run()
+					{
 						setText(txt);
 						setCaretPosition(0); // scroll to top.
 					}
@@ -134,66 +135,65 @@ public class BackpagePane extends JEditorPane
 	}
 
 	public void selectionEvent(SelectionEvent e) {
-		switch (e.type) {
+		switch(e.type) {
 		case SelectionEvent.OBJECT_ADDED:
-			// Just take the first DataNode in the selection
-			Iterator<VElement> it = e.selection.iterator();
-			while (it.hasNext()) {
-				VElement o = it.next();
+			//Just take the first DataNode in the selection
+			Iterator<VPathwayElement> it = e.selection.iterator();
+			while(it.hasNext()) {
+				VPathwayElement o = it.next();
 				// works for all Graphics object
-				// the backpage checks and gives the correct error if
+				// the backpage checks and gives the correct error if 
 				// it's not a datanode or line
-				if (o instanceof VPathwayObject) {
-					setInput(((VPathwayObject) o).getPathwayObject());
+				if(o instanceof Graphics) {
+					setInput(((Graphics)o).getPathwayElement());
 					break;
 				}
 			}
 			break;
 		case SelectionEvent.OBJECT_REMOVED:
-			if (e.selection.size() != 0)
-				break;
+			if(e.selection.size() != 0) break;
 		case SelectionEvent.SELECTION_CLEARED:
 			setInput(null);
 			break;
 		}
 	}
 
-	public void applicationEvent(ApplicationEvent e) {
-		switch (e.getType()) {
-		case VPATHWAY_CREATED:
-			((VPathwayModel) e.getSource()).addSelectionListener(this);
+	public void applicationEvent(ApplicationEvent e)
+	{
+		switch (e.getType())
+		{
+			case VPATHWAY_CREATED:
+				((VPathway)e.getSource()).addSelectionListener(this);
 			break;
-		case VPATHWAY_DISPOSED:
-			((VPathwayModel) e.getSource()).removeSelectionListener(this);
-			// remove content of backpage when pathway is closed
-			input = null;
-			setText(bpt.getBackpageHTML(null));
+			case VPATHWAY_DISPOSED:
+				((VPathway)e.getSource()).removeSelectionListener(this);
+				// remove content of backpage when pathway is closed
+				input = null;
+				setText(bpt.getBackpageHTML(null));
 			break;
 		}
 	}
 
 	Xref currRef;
 
-	public void gmmlObjectModified(PathwayObjectEvent e) {
-		PathwayObject pe = e.getModifiedPathwayObject();
-		if (input != null
-				//TODO  static property Xref,  separate datasource and ID? 
-				&& (e.affectsProperty(StaticProperty.XREF))) {
-			Xref nref = new Xref(((Xrefable) pe).getXref().getId(), ((Xrefable) input).getXref().getDataSource());
-			if (!nref.equals(currRef)) {
+	public void gmmlObjectModified(PathwayElementEvent e) {
+		PathwayElement pe = e.getModifiedPathwayElement();
+		if(input != null && (e.affectsProperty(StaticProperty.GENEID) || e.affectsProperty(StaticProperty.DATASOURCE))) {
+			Xref nref = new Xref (pe.getElementID(), input.getDataSource());
+			if(!nref.equals(currRef))
+			{
 				doQuery();
 			}
 		}
 	}
 
 	private boolean disposed = false;
-
-	public void dispose() {
+	public void dispose()
+	{
 		assert (!disposed);
 		engine.removeApplicationEventListener(this);
-		VPathwayModel vpwy = engine.getActiveVPathwayModel();
-		if (vpwy != null)
-			vpwy.removeSelectionListener(this);
+		VPathway vpwy = engine.getActiveVPathway();
+		if (vpwy != null) vpwy.removeSelectionListener(this);
 		executor.shutdown();
 		disposed = true;
 	}

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * PathVisio, a tool for data visualization and analysis using biological pathways
- * Copyright 2006-2021 BiGCaT Bioinformatics, WikiPathways
+ * Copyright 2006-2019 BiGCaT Bioinformatics
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -19,41 +19,50 @@ package org.pathvisio.core.debug;
 import java.util.ConcurrentModificationException;
 import java.util.ListIterator;
 
-import org.pathvisio.debug.DebugList;
-
 import junit.framework.TestCase;
 
-public class TestDebug extends TestCase {
+public class TestDebug extends TestCase
+{
 	DebugList<String> l;
 
-	public void setUp() {
+	public void setUp()
+	{
 		l = new DebugList<String>();
-		l.add("boom");
-		l.add("roos");
-		l.add("vis");
-		l.add("vuur");
+		l.add ("boom");
+		l.add ("roos");
+		l.add ("vis");
+		l.add ("vuur");
 	}
 
-	public void test1() {
-		try {
+	public void test1()
+	{
+		try
+		{
 			ListIterator<String> i = l.listIterator();
-			while (i.hasNext()) {
-				System.out.println(i.next());
+			while (i.hasNext())
+			{
+				System.out.println (i.next());
 				i.add("Hello");
 				l.remove(3);
 			}
-			fail("Expected concurrentModificationException");
-		} catch (ConcurrentModificationException ex) {
+			fail ("Expected concurrentModificationException");
+		}
+		catch (ConcurrentModificationException ex)
+		{
 			// success!
 		}
 
-		try {
-			for (String s : l) {
-				System.out.println(s);
+		try
+		{
+			for (String s : l)
+			{
+				System.out.println (s);
 				l.add("Bye");
 			}
-			fail("Expected concurrentModificationException");
-		} catch (ConcurrentModificationException ex) {
+			fail ("Expected concurrentModificationException");
+		}
+		catch (ConcurrentModificationException ex)
+		{
 			// success!
 		}
 
