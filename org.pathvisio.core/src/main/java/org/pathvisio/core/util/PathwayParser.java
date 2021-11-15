@@ -93,7 +93,7 @@ public class PathwayParser extends DefaultHandler {
 		} else if (localName.equals("Xref")) {
 			String sysName = attributes.getValue("Database");
 			assert (sysName != null);
-			currentDs = DataSource.getByFullName(sysName);
+			currentDs = DataSource.getExistingByFullName(sysName);
 			currentId = attributes.getValue("ID");
 			assert (currentId != null);
 
