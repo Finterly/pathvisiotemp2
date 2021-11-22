@@ -97,6 +97,19 @@
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis-ext</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+				<!--  -->
+				<exclusion>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>xmlgraphics-commons</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>batik-xml</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- JDOM -->
