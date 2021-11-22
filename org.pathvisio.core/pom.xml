@@ -79,63 +79,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-svggen</artifactId>
-			<version>1.14</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-dom</artifactId>
-			<version>1.14</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis-ext</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xalan</groupId>
-					<artifactId>xalan</artifactId>
-				</exclusion>
-				<!--  -->
-				<exclusion>
-					<groupId>org.apache.xmlgraphics</groupId>
-					<artifactId>xmlgraphics-commons</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlgraphics</groupId>
-					<artifactId>batik-xml</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<!-- JDOM -->
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 			<version>2.0.6</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- XML <dependency> <groupId>org.openjax.xml</groupId> <artifactId>sax</artifactId> 
-			<version>0.9.4</version> <exclusions> <exclusion> <groupId>xml-apis</groupId> 
-			<artifactId>xml-apis</artifactId> </exclusion> <exclusion> <groupId>javax.annotation</groupId> 
-			<artifactId>javax.annotation-api</artifactId> </exclusion> <exclusion> <groupId>javax.servlet</groupId> 
-			<artifactId>javax.servlet-api</artifactId> </exclusion> <exclusion> <groupId>org.xmlunit</groupId> 
-			<artifactId>xmlunit-core</artifactId> </exclusion> <exclusion> <groupId>org.opengis.cite.xerces</groupId> 
-			<artifactId>xercesImpl-xsd11</artifactId> </exclusion> </exclusions> </dependency> -->
-		<!-- Apache Commons -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<version>4.1</version>
 		</dependency>
 		<!-- BridgeDb -->
 		<dependency>
@@ -148,28 +96,8 @@
 					<artifactId>jaxb-api</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-jxc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.annotation</groupId>
-					<artifactId>jakarta.annotation-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>jakarta.xml.bind</groupId>
 					<artifactId>jakarta.xml.bind-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.jws</groupId>
-					<artifactId>jakarta.jws-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>jakarta.xml.soap</groupId>
@@ -181,44 +109,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- Apache Commons -->
 		<dependency>
-			<groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.rdb</artifactId>
-			<version>${bridgedb.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.xml.bind</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.annotation</groupId>
-					<artifactId>jakarta.annotation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.xml.bind</groupId>
-					<artifactId>jakarta.xml.bind-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.jws</groupId>
-					<artifactId>jakarta.jws-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.xml.soap</groupId>
-					<artifactId>jakarta.xml.soap-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.xml.ws</groupId>
-					<artifactId>jakarta.xml.ws-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
 		</dependency>
 		<!-- JUnit -->
 		<dependency>
