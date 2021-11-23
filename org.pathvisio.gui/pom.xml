@@ -32,12 +32,28 @@
 					<preparationGoals>clean install</preparationGoals>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Export-Package>!${bundle.namespace}.*</Export-Package>
+						<Private-Package>${bundle.namespace}.*</Private-Package>
+						<Bundle-Activator>${bundle.namespace}.Activator</Bundle-Activator>
+						<Import-Package>*;resolution:=optional</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<!-- Dependencies needed to compile this project. -->
 	<dependencies>
-		<!-- PathVisio (temporary) -->
+		<!-- PathVisio -->
 		<dependency>
 			<groupId>org.pathvisio</groupId>
 			<artifactId>org.pathvisio.core</artifactId>
@@ -47,24 +63,7 @@
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-forms</artifactId>
-			<version>1.9.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>jgoodies-forms</artifactId>
 			<version>1.8.0</version> <!-- older version for FontChooser.java -->
-		</dependency>
-		<!-- BridgeDb -->
-		<dependency>
-			<groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.bio</artifactId>
-			<version>${bridgedb.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bridgedb</groupId>
-			<artifactId>bridgedb-bundle</artifactId>
-			<version>${bridgedb.version}</version>
-			<type>pom</type>
 		</dependency>
 	</dependencies>
 </project>

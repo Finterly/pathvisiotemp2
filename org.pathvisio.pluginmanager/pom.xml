@@ -31,18 +31,28 @@
 					<preparationGoals>clean install</preparationGoals>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Export-Package>!${bundle.namespace}.*</Export-Package>
+						<Private-Package>${bundle.namespace}.*</Private-Package>
+						<Bundle-Activator>${bundle.namespace}.Activator</Bundle-Activator>
+						<Import-Package>*;resolution:=optional</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 	<!-- Dependencies needed to compile this project. -->
 	<dependencies>
-		<!-- PathVisio (temporary) -->
-		<dependency>
-			<groupId>org.pathvisio</groupId>
-			<artifactId>org.pathvisio.core</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-		</dependency>
+		<!-- PathVisio -->
 		<dependency>
 			<groupId>org.pathvisio</groupId>
 			<artifactId>org.pathvisio.desktop</artifactId>
@@ -60,12 +70,6 @@
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.bundlerepository</artifactId>
 			<version>2.0.10</version>
-		</dependency>
-		<!-- JGoodies Forms -->
-		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>jgoodies-forms</artifactId>
-			<version>1.9.0</version>
 		</dependency>
 	</dependencies>
 </project>
