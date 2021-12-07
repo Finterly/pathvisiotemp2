@@ -1,0 +1,7 @@
+rm -rf C:/karaf/deploy/*
+rm -rf C:/karaf/local/*
+mkdir C:/karaf/deploy -p
+cp org.lorainelab.igb.feature/target/features/features.xml karaf/deploy/
+C:/karaf/bin/igb clean debug
+
+

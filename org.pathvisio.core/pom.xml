@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -33,7 +31,6 @@
 						<Private-Package>${bundle.namespace}.*</Private-Package>
 						<Embed-Dependency>batik-transcoder,batik-svggen,batik-dom</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<!-- <Import-Package>org.osgi.framework,*;resolution:=optional</Import-Package> -->
 					</instructions>
 				</configuration>
 			</plugin>
@@ -58,11 +55,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- JDOM -->
+		<!-- JDOM2 -->
 		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.jdom</artifactId>
+			<version>2.0.6_1</version>
 		</dependency>
 		<!-- BridgeDb -->
 		<dependency>
@@ -88,17 +85,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Apache Commons -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<version>4.1</version>
-		</dependency>
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
