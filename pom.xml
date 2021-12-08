@@ -112,6 +112,8 @@
 
 
 	<build>
+		<defaultGoal>clean install </defaultGoal>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -136,6 +138,7 @@
 					</executions>
 				</plugin>
 
+				<!--
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -162,18 +165,43 @@
 							<version>2.18.1</version>
 						</dependency>
 					</dependencies>
-					<configuration>
-						<!--this is great for mouse debugging, but breaks drag drop functionality-->
-						<!--                        <argLine>-Dglass.disableGrab=true</argLine>-->
-						<excludes>
+					<configuration> -->
+				<!--this is great for mouse debugging, but breaks drag drop functionality-->
+				<!--                        <argLine>-Dglass.disableGrab=true</argLine>-->
+				<!--	<excludes>
 							<exclude>**/*TestFx.java</exclude>
 						</excludes>
 					</configuration>
-				</plugin>
+				</plugin>-->
 			</plugins>
 		</pluginManagement>
-
 		<plugins>
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>com.domain.main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
 			<!--
 			<plugin>
 				<inherited>true</inherited>
@@ -226,18 +254,17 @@
 			</plugin>
 			 -->
 
-			<!-- Tests? 
-
+			<!-- Tests? -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
+					<skipTests>true</skipTests> <!-- for now -->
 					<argLine>-Xmx256m</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>
 			</plugin>
-			-->
 
 			<!-- Generates the OSGi metadata based on the osgi.bnd file. 
 			<plugin>
