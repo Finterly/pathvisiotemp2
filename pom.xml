@@ -57,11 +57,12 @@
 
 
 	<modules>
+		<!-- order? -->
 		<module>org.pathvisio.core</module>
-		<module>org.pathvisio.desktop</module>
 		<module>org.pathvisio.gui</module>
-		<module>org.pathvisio.launcher</module>
+		<module>org.pathvisio.desktop</module>
 		<module>org.pathvisio.pluginmanager</module>
+		<module>org.pathvisio.launcher</module>
 	</modules>
 
 	<!-- Common dependencies -->
@@ -111,7 +112,69 @@
 
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>copy-dependencies</id>
+							<phase>package</phase>
+							<goals>
+								<goal>copy-dependencies</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/bundles</outputDirectory>
+								<overWriteReleases>false</overWriteReleases>
+								<overWriteSnapshots>true</overWriteSnapshots>
+								<overWriteIfNewer>true</overWriteIfNewer>
+								<excludeTransitive>true</excludeTransitive>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>3.0.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.18.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.surefire</groupId>
+							<artifactId>surefire-junit47</artifactId>
+							<version>2.18.1</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<!--this is great for mouse debugging, but breaks drag drop functionality-->
+						<!--                        <argLine>-Dglass.disableGrab=true</argLine>-->
+						<excludes>
+							<exclude>**/*TestFx.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
+			<!--
 			<plugin>
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -130,6 +193,9 @@
 					</compilerArguments>
 				</configuration>
 			</plugin>
+			 -->
+
+			<!-- 	
 			<plugin>
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -144,6 +210,9 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
+
+			<!-- 
 			<plugin>
 				<inherited>false</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -152,36 +221,32 @@
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<goals>deploy</goals>
-					<!-- so that impl bundles with modules will build correctly -->
 					<preparationGoals>clean install</preparationGoals>
 				</configuration>
 			</plugin>
-			<!-- Tests? -->
+			 -->
+
+			<!-- Tests? 
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<!--argLine>${argLine} -Xmx256m </argLine -->
 					<argLine>-Xmx256m</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>
 			</plugin>
-			<!-- Generates the OSGi metadata based on the osgi.bnd file. -->
+			-->
+
+			<!-- Generates the OSGi metadata based on the osgi.bnd file. 
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<version>${maven-bundle-plugin.version}</version>
-				<configuration>
-					<instructions>
-						<Embed-Transitive>true</Embed-Transitive>
-					</instructions>
-				</configuration>
 			</plugin>
-
-
+			-->
 		</plugins>
-
 	</build>
 
 </project>
