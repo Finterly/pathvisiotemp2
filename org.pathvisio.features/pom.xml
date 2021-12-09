@@ -11,7 +11,7 @@
 
 	<artifactId>org.pathvisio.features</artifactId>
 	<packaging>pom</packaging>
-	<name>org.pathvisio.features-feature</name>
+	<!--<name>org.pathvisio.features-feature</name>-->
 	<description>org.pathvisio.features details</description>
 
 	<dependencies>
@@ -43,7 +43,7 @@
 					<overwriteChangedDependencies>true</overwriteChangedDependencies>
 				</configuration>
 			</plugin>
-
+			<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -67,6 +67,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -90,6 +91,32 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>target/features.xml</file>
+									<type>xml</type>
+									<classifier>features</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+-->
 		</plugins>
 	</build>
 

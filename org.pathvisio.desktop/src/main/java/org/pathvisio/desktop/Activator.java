@@ -27,7 +27,10 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		// PreferenceManager needs to be initialized before
 		// Engine object is created
-		PreferenceManager.init();
+		try {		PreferenceManager.init();			
+		} catch (Exception e){
+			System.out.println("ErrorHERE");	
+		}
 		
 		Engine engine = new Engine();
 		SwingEngine swingEngine = new SwingEngine(engine);
