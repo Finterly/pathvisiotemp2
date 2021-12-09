@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.6.0" name="org.pathvisio.features">
+    <feature version="0.0.0">
+        <feature>aries-blueprint</feature>
+        <feature>aries-proxy</feature>
+        <feature>audit-log</feature>
+        <feature>blueprint-web</feature>
+        <feature>bundle</feature>
+        <feature>config</feature>
+        <feature>deployer</feature>
+        <feature>diagnostic</feature>
+        <feature>documentation</feature>
+        <feature>eventadmin</feature>
+        <feature>feature</feature>
+        <feature>felix-http</feature>
+        <feature>felix-httplite</feature>
+        <feature>framework-security</feature>
+        <feature>http</feature>
+        <feature>http-whiteboard</feature>
+        <feature>instance</feature>
+        <feature>jaas</feature>
+        <feature>jaas-boot</feature>
+        <feature>jasypt-encryption</feature>
+        <feature>jetty</feature>
+        <feature>jline</feature>
+        <feature>jolokia</feature>
+        <feature>kar</feature>
+        <feature>log</feature>
+        <feature>management</feature>
+        <feature>maven</feature>
+        <feature>minimal</feature>
+        <feature>obr</feature>
+        <feature>package</feature>
+        <feature>pax-http-service</feature>
+        <feature>profile</feature>
+        <feature>scheduler</feature>
+        <feature>scr</feature>
+        <feature>service</feature>
+        <feature>service-security</feature>
+        <feature>service-wrapper</feature>
+        <feature>shell</feature>
+        <feature>shell-compat</feature>
+        <feature>ssh</feature>
+        <feature>standard</feature>
+        <feature>system</feature>
+        <feature>war</feature>
+        <feature>webconsole</feature>
+        <feature>wrap</feature>
+        <feature>wrap</feature>
+        <feature>wrapper</feature>
+        <bundle>mvn:org.apache.karaf.shell/org.apache.karaf.shell.console/4.2.8</bundle>
+        <bundle>mvn:org.osgi/org.osgi.core/6.0.0</bundle>
+        <bundle>wrap:mvn:org.apache.karaf/apache-karaf/4.2.8/tar.gz</bundle>
+        <bundle>wrap:mvn:org.apache.karaf/apache-karaf/4.2.8/zip</bundle>
+    </feature>
+</features>
