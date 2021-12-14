@@ -6,6 +6,8 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
+	<name>Pathvisio Desktop Application Distribution</name>
+
 	<properties>
 		<revision>4.0.0-SNAPSHOT</revision>
 
