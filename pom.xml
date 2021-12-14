@@ -58,12 +58,13 @@
 
 	<modules>
 		<!-- order? -->
-		<module>org.pathvisio.features</module>
 		<module>org.pathvisio.core</module>
 		<module>org.pathvisio.gui</module>
 		<module>org.pathvisio.desktop</module>
 		<module>org.pathvisio.pluginmanager</module>
 		<module>org.pathvisio.launcher</module>
+		<module>features</module>
+		<module>assembly</module>
 	</modules>
 
 	<!-- Common dependencies -->
@@ -114,7 +115,7 @@
 
 	<build>
 		<defaultGoal>clean install </defaultGoal>
-		
+
 		<!--
 		<resources>
 			<resource>
@@ -148,7 +149,7 @@
 						</execution>
 					</executions>
 				</plugin>
-			
+
 				<plugin>
 					<groupId>org.apache.karaf.tooling</groupId>
 					<artifactId>karaf-maven-plugin</artifactId>
@@ -192,7 +193,7 @@
 						</execution>
 					</executions>
 				</plugin>
- 		
+
 				<!--
 				<plugin>
 					<groupId>org.apache.karaf.tooling</groupId>
