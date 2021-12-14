@@ -65,8 +65,8 @@
 		<module>org.pathvisio.desktop</module>
 		<module>org.pathvisio.pluginmanager</module>
 		<module>org.pathvisio.launcher</module>
-		<module>features</module>
-		<module>assembly</module>
+		<module>org.pathvisio.features</module>
+		<module>org.pathvisio.assembly</module>
 	</modules>
 
 	<!-- Common dependencies -->
