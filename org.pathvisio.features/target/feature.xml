@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="${project.artifactId}-${project.version}"
+<features name="org.pathvisio.features-4.0.0-SNAPSHOT"
 	xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
-	<feature name='${project.artifactId}'
+	<feature name='org.pathvisio.features'
 		description='A minimal Karaf distribution for Pathvisio'
-		version='${revision}'>
-		<details>${project.description}</details>
+		version='4.0.0-SNAPSHOT'>
+		<details>org.pathvisio.features details</details>
 		<feature>pax-jdbc</feature>
 		<bundle>wrap:mvn:org.xerial/sqlite-jdbc/3.8.11.2</bundle>
 		<bundle>mvn:org.ops4j.pax.jdbc/pax-jdbc-sqlite/0.8.0</bundle>
 	</feature>
 
-	<feature name="pathvisio-gui" version="${project.version}">
+	<feature name="pathvisio-gui" version="4.0.0-SNAPSHOT">
 		<feature>jaas</feature>
 		<feature>shell</feature>
 		<feature>shell-compat</feature>
@@ -31,14 +31,14 @@
 	</feature>
 	
 	<!-- Bundles -->
-	<feature name="pathvisio-bundles" version="${project.version}">
-		<bundle start-level="1">mvn:org.pathvisio.core/${revision}</bundle>
-		<bundle start-level="2">mvn:org.pathvisio.gui/${revision}</bundle>
-		<bundle start-level="3">mvn:org.pathvisio.desktop/${revision}
+	<feature name="pathvisio-bundles" version="4.0.0-SNAPSHOT">
+		<bundle start-level="1">mvn:org.pathvisio.core/4.0.0-SNAPSHOT</bundle>
+		<bundle start-level="2">mvn:org.pathvisio.gui/4.0.0-SNAPSHOT</bundle>
+		<bundle start-level="3">mvn:org.pathvisio.desktop/4.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level="4">mvn:org.pathvisio.pluginmanager/${revision}
+		<bundle start-level="4">mvn:org.pathvisio.pluginmanager/4.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level="5">mvn:org.pathvisio.launcher/${revision}
+		<bundle start-level="5">mvn:org.pathvisio.launcher/4.0.0-SNAPSHOT
 		</bundle>
 	</feature>
 

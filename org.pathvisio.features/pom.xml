@@ -19,6 +19,7 @@
 	</dependencies>
 
 	<build>
+		<!--
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -29,11 +30,15 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		-->
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
+				<version>${karaf.version} </version>
 
+				<!--
 				<configuration>
 					<startLevel>50</startLevel>
 					<aggregateFeatures>true</aggregateFeatures>
@@ -42,6 +47,7 @@
 					<logDependencyChanges>true</logDependencyChanges>
 					<overwriteChangedDependencies>true</overwriteChangedDependencies>
 				</configuration>
+				-->
 			</plugin>
 			<!--
 			<plugin>
@@ -68,10 +74,11 @@
 				</executions>
 			</plugin>
 			-->
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
+				<version>${maven-resources-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>copy-features</id>
@@ -91,7 +98,30 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--
+			-->
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -116,7 +146,7 @@
 					</execution>
 				</executions>
 			</plugin>
--->
+
 		</plugins>
 	</build>
 
