@@ -9,9 +9,9 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>pathvisio</artifactId>
+	<artifactId>pathvisio.assembly</artifactId>
+	<name>pathvisio.assembly</name>
 	<packaging>pom</packaging>
-	<name>Pathvisio Karaf Distribution</name>
 
 	<dependencies>
 		<dependency>
@@ -36,214 +36,37 @@
 	</dependencies>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/filtered-resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</resource>
-		</resources>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>xml-maven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<id>generate-descriptors</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>transform</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<transformationSets>
-						<transformationSet>
-							<dir>src/main/descriptors</dir>
-							<includes>
-								<include>config-*.xml</include>
-							</includes>
-							<stylesheet>src/main/xsl/template.xslt</stylesheet>
-						</transformationSet>
-					</transformationSets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>filter</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
 				<version>${karaf.version}</version>
-				<executions>
-					<execution>
-						<id>add-features-to-repo</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>features-add-to-repository</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features
-								</descriptor>
-								<descriptor>mvn:org.cytoscape.distribution/features/${project.version}/xml/features
-								</descriptor>
-							</descriptors>
-							<features>
-								<feature>cytoscape-gui</feature>
-								<feature version="9.4.22.v20191022">jetty</feature>
-								<feature>scr</feature>
-								<feature>pax-web-core</feature>
-								<feature>pax-jetty</feature>
-								<feature>pax-http-jetty</feature>
-								<feature>pax-http</feature>
-								<feature>pax-http-service</feature>
-								<feature>http</feature>
-							</features>
-							<includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
-							<repository>target/features-repo</repository>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-features-to-repo-dev</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>features-add-to-repository</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>mvn:org.cytoscape.distribution/features/${project.version}/xml/features
-								</descriptor>
-							</descriptors>
-							<features />
-							<includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
-							<repository>target/features-repo-dev</repository>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven-dependency-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>unpack-dependencies</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.karaf</groupId>
-									<artifactId>apache-karaf</artifactId>
-									<type>tar.gz</type>
-									<outputDirectory>target/dependencies</outputDirectory>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.cytoscape.gui-distribution</groupId>
-									<artifactId>splash-launcher</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<outputDirectory>target/dependencies/splash-launcher
-									</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven-assembly-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>directory</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>target/generated-resources/xml/xslt/config-dev.xml
-								</descriptor>
-							</descriptors>
-							<finalName>${project.artifactId}</finalName>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unix-bin</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>target/generated-resources/xml/xslt/config-unix.xml
-								</descriptor>
-							</descriptors>
-							<finalName>${project.artifactId}-unix-${project.version}
-							</finalName>
-							<tarLongFileMode>gnu</tarLongFileMode>
-						</configuration>
-					</execution>
-					<execution>
-						<id>windows-bin</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>target/generated-resources/xml/xslt/config-windows.xml
-								</descriptor>
-							</descriptors>
-							<finalName>${project.artifactId}-windows-${project.version}
-							</finalName>
-						</configuration>
-					</execution>
-				</executions>
+				<extensions>true</extensions>
 				<configuration>
-					<appendAssemblyId>false</appendAssemblyId>
+					<finalName>${project.artifactId}</finalName>
+					<includeTransitiveDependency>true</includeTransitiveDependency>
+					<featuresFile>${project.groupId}.igb.feature/target/features/features.xml</featuresFile>
+					<installedBundles>
+						<installedBundle>mvn:commons-lang/commons-lang/2.6</installedBundle>
+					</installedBundles>
+					<bootFeatures>
+						<feature>bundle</feature>
+						<feature>config</feature>
+						<feature>diagnostic</feature>
+						<feature>feature</feature>
+						<feature>jaas</feature>
+						<feature>shell</feature>
+						<feature>log</feature>
+						<feature>management</feature>
+						<feature>package</feature>
+						<feature>shell-compat</feature>
+						<feature>ssh</feature>
+						<feature>system</feature>
+						<feature>wrap</feature>
+					</bootFeatures>
+					<archiveZip>false</archiveZip>
 				</configuration>
 			</plugin>
-			
 		</plugins>
 	</build>
 </project>
