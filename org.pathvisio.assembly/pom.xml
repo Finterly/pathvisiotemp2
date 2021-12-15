@@ -9,8 +9,8 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>pathvisio.assembly</artifactId>
-	<name>pathvisio.assembly</name>
+	<artifactId>org.pathvisio.assembly</artifactId>
+	<name>org.pathvisio.assembly</name>
 	<packaging>karaf-assembly</packaging> <!-- pom? or karaf-assembly-->
 
 	<dependencies>
@@ -28,18 +28,17 @@
 			<version>${karaf.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
-			<scope>runtime</scope>
+			<!-- <scope>runtime</scope> -->
 		</dependency>
-		<dependency>
-			<!-- for custom distribution -->
-			<!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
+		<!--<dependency>
+			for custom distribution scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>spring</artifactId>
 			<version>${karaf.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -61,6 +60,7 @@
 			</resource>
 		</resources>
 
+
 		<plugins>
 			<!-- karaf-maven-plugin will call both assembly and archive goals -->
 			<plugin>
@@ -68,13 +68,71 @@
 				<artifactId>karaf-maven-plugin</artifactId>
 				<version>${karaf.version}</version>
 				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>archive</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<!-- no startupFeatures -->
+					<installAllFeaturesByDefault>true</installAllFeaturesByDefault>
+					<bootFeatures>
+						<feature>jaas</feature>
+						<feature>shell</feature>
+						<feature>shell-compat</feature>
+						<feature>feature</feature>
+						<feature>ssh</feature>
+						<feature>management</feature>
+						<feature>bundle</feature>
+						<feature>config</feature>
+						<feature>deployer</feature>
+						<feature>diagnostic</feature>
+						<feature>instance</feature>
+						<feature>kar</feature>
+						<feature>log</feature>
+						<feature>package</feature>
+						<feature>service</feature>
+						<feature>system</feature>
+						<!-- Internal -->
+						<feature> name="pathvisio-bundles" version="${project.version}">
+							<bundle>mvn:org.pathvisio.core/${revision}</bundle>
+							<bundle>mvn:org.pathvisio.gui/${revision}</bundle>
+							<bundle>mvn:org.pathvisio.desktop/${revision}</bundle>
+							<bundle>mvn:org.pathvisio.pluginmanager/${revision}</bundle>
+							<bundle>mvn:org.pathvisio.launcher/${revision}</bundle>
+						</feature>>
+					</bootFeatures>
 					<bootFeatures>
 						<feature>standard</feature>
 					</bootFeatures>
-					<!-- no installedFeatures -->
 				</configuration>
+				<!--<executions>
+					<execution>
+						<id>verify</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>mvn:org.apache.karaf.features/framework/${karaf.version}/xml/features</descriptor>
+								<descriptor>mvn:org.pathvisio/org.pathvisio.features/${project.version}/xml/features</descriptor>
+							</descriptors>
+							<features>
+								<feature>pathvisio-bundles</feature>
+							</features>
+						</configuration>
+					</execution>
+				</executions>-->
 			</plugin>
 		</plugins>
 	</build>
