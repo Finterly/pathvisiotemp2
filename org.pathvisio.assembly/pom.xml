@@ -90,26 +90,28 @@
 						<feature>shell</feature>
 						<feature>shell-compat</feature>
 						<feature>feature</feature>
-						<feature>ssh</feature>
-						<feature>management</feature>
+						<!--<feature>ssh</feature> -->
+						<!--<feature>management</feature> -->
 						<feature>bundle</feature>
-						<feature>config</feature>
+						<!--<feature>config</feature> -->
 						<feature>deployer</feature>
 						<feature>diagnostic</feature>
 						<feature>instance</feature>
-						<feature>kar</feature>
+						<!--<feature>kar</feature> -->
 						<feature>log</feature>
-						<feature>package</feature>
+						<!--<feature>package</feature> -->
 						<feature>service</feature>
 						<feature>system</feature>
 						<!-- Internal -->
-						<feature> name="pathvisio-bundles" version="${project.version}">
+						<feature>
+							name="pathvisio-bundles" version="${project.version}">
 							<bundle>mvn:org.pathvisio.core/${revision}</bundle>
 							<bundle>mvn:org.pathvisio.gui/${revision}</bundle>
 							<bundle>mvn:org.pathvisio.desktop/${revision}</bundle>
 							<bundle>mvn:org.pathvisio.pluginmanager/${revision}</bundle>
 							<bundle>mvn:org.pathvisio.launcher/${revision}</bundle>
-						</feature>>
+						</feature>
+						>
 					</bootFeatures>
 					<bootFeatures>
 						<feature>standard</feature>
