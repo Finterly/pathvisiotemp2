@@ -11,60 +11,69 @@
 
 	<artifactId>pathvisio.assembly</artifactId>
 	<name>pathvisio.assembly</name>
-	<packaging>pom</packaging>
+	<packaging>karaf-assembly</packaging> <!-- pom? or karaf-assembly-->
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>apache-karaf</artifactId>
+			<!-- scope is compile so all features (there is only one) are installed into startup.properties and the feature repo itself is not added in etc/org.apache.karaf.features.cfg file -->
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>framework</artifactId>
 			<version>${karaf.version}</version>
-			<type>tar.gz</type>
+			<type>kar</type>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>apache-karaf</artifactId>
-			<version>${karaf.version}</version>
-			<type>zip</type>
-		</dependency>
-		<dependency>
+			<!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>standard</artifactId>
 			<version>${karaf.version}</version>
-			<type>xml</type>
 			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<!-- for custom distribution -->
+			<!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>spring</artifactId>
+			<version>${karaf.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<!-- if you want to include resources in the distribution -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/filtered-resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
+			<!-- karaf-maven-plugin will call both assembly and archive goals -->
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
 				<version>${karaf.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<finalName>${project.artifactId}</finalName>
-					<includeTransitiveDependency>true</includeTransitiveDependency>
-					<featuresFile>${project.groupId}.igb.feature/target/features/features.xml</featuresFile>
-					<installedBundles>
-						<installedBundle>mvn:commons-lang/commons-lang/2.6</installedBundle>
-					</installedBundles>
+					<!-- no startupFeatures -->
 					<bootFeatures>
-						<feature>bundle</feature>
-						<feature>config</feature>
-						<feature>diagnostic</feature>
-						<feature>feature</feature>
-						<feature>jaas</feature>
-						<feature>shell</feature>
-						<feature>log</feature>
-						<feature>management</feature>
-						<feature>package</feature>
-						<feature>shell-compat</feature>
-						<feature>ssh</feature>
-						<feature>system</feature>
-						<feature>wrap</feature>
+						<feature>standard</feature>
 					</bootFeatures>
-					<archiveZip>false</archiveZip>
+					<!-- no installedFeatures -->
 				</configuration>
 			</plugin>
 		</plugins>

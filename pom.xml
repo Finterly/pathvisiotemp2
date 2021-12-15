@@ -117,7 +117,6 @@
 
 	<build>
 		<defaultGoal>clean install </defaultGoal>
-
 		<!--
 		<resources>
 			<resource>
@@ -127,7 +126,6 @@
 			</resource>
 		</resources>
 		-->
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -150,260 +148,10 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.karaf.tooling</groupId>
-					<artifactId>karaf-maven-plugin</artifactId>
-					<version>${karaf.version}</version>
-					<executions>
-						<execution>
-							<id>add-features-to-repo</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>features-add-to-repository</goal>
-							</goals>
-							<configuration>
-								<descriptors>
-									<descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features
-								</descriptor>
-									<descriptor>mvn:org.pathvisio.features/features/${project.version}/xml/features
-								</descriptor>
-								</descriptors>
-								<features>
-									<feature></feature>
-								</features>
-								<includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
-								<repository>target/features-repo</repository>
-							</configuration>
-						</execution>
-						<execution>
-							<id>add-features-to-repo-dev</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>features-add-to-repository</goal>
-							</goals>
-							<configuration>
-								<descriptors>
-									<descriptor>mvn:org.cytoscape.distribution/features/${project.version}/xml/features
-								</descriptor>
-								</descriptors>
-								<features />
-								<includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
-								<repository>target/features-repo-dev</repository>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-				<!--
-				<plugin>
-					<groupId>org.apache.karaf.tooling</groupId>
-					<artifactId>karaf-maven-plugin</artifactId>
-					<version>${karaf.version}</version>
-					<extensions>true</extensions>
-					<executions>
-						<execution>
-							<id>build-feature</id>
-							<phase>package</phase>
-							<goals>
-								<goal>features-generate-descriptor</goal>
-							</goals>
-							<configuration>
-								<startLevel>100</startLevel>
-								<aggregateFeatures>false</aggregateFeatures>
-								<resolver>(obr)</resolver>
-								<checkDependencyChange>true</checkDependencyChange>
-								<failOnDependencyChange>false</failOnDependencyChange>
-								<logDependencyChanges>true</logDependencyChanges>
-								<overwriteChangedDependencies>true</overwriteChangedDependencies>
-								<includeTransitiveDependency>false</includeTransitiveDependency>
-								<installMode>auto</installMode>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				-->
-
-				<!--
-				<plugin>
-					<groupId>org.apache.karaf.tooling</groupId>
-					<artifactId>karaf-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>verify</id>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>verify</goal>
-							</goals>
-							<configuration>
-								<descriptors>
-									<descriptor>file:${project.build.directory}/org.pathvisio.features/feature.xml</descriptor>
-								</descriptors>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				-->
-
-				<!--
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.0.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>maven-bundle-plugin</artifactId>
-					<version>3.0.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.18.1</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.maven.surefire</groupId>
-							<artifactId>surefire-junit47</artifactId>
-							<version>2.18.1</version>
-						</dependency>
-					</dependencies>
-					<configuration> -->
-				<!--this is great for mouse debugging, but breaks drag drop functionality-->
-				<!--                        <argLine>-Dglass.disableGrab=true</argLine>-->
-				<!--	<excludes>
-							<exclude>**/*TestFx.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>-->
+				</plugin>			
 			</plugins>
 		</pluginManagement>
-
 		<plugins>
-			<!--
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>target/classes/features.xml</file>
-									<type>xml</type>
-									<classifier>features</classifier>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>features-maven-plugin</artifactId>
-				<version>2.3.0</version>
-				<executions>
-					<execution>
-						<id>create-kar</id>
-						<goals>
-							<goal>create-kar</goal>
-						</goals> 
-						<configuration>
-							<featuresFile>${project.build.directory}/org.pathvisio.features/${features.file}</featuresFile>
-						</configuration> 
-					</execution>
-				</executions>
-			</plugin>
-			-->
-
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven-assembly-plugin.version}</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>com.domain.main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-			<!--
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<source>11</source>
-					<target>11</target>
-					<release>11</release>
-					<optimize>true</optimize>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-					<compilerArguments>
-						<Xmaxwarns>10000</Xmaxwarns>
-						<Xmaxerrs>10000</Xmaxerrs>
-					</compilerArguments>
-				</configuration>
-			</plugin>
-			 -->
-
-			<!-- 	
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven-source-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-
-			<!-- 
-			<plugin>
-				<inherited>false</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>${maven-release-plugin.version}</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<goals>deploy</goals>
-					<preparationGoals>clean install</preparationGoals>
-				</configuration>
-			</plugin>
-			 -->
-
 			<!-- Tests? -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -415,7 +163,6 @@
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>
 			</plugin>
-
 			<!-- Generates the OSGi metadata based on the osgi.bnd file. 
 			<plugin>
 				<groupId>org.apache.felix</groupId>
