@@ -15,6 +15,15 @@
 	<name>org.pathvisio.launcher</name>
 	<packaging>bundle</packaging>
 
+	<!-- Dependencies needed to compile this project. -->
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.karaf</groupId>
+			<artifactId>org.apache.karaf.main</artifactId>
+			<version>${karaf.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -35,13 +44,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<!-- Dependencies needed to compile this project. -->
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>org.apache.karaf.main</artifactId>
-			<version>${karaf.version}</version>
-		</dependency>
-	</dependencies>
 </project>

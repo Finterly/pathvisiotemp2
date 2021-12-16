@@ -17,6 +17,21 @@
 	<name>org.pathvisio.gui</name>
 	<packaging>bundle</packaging>
 
+	<!-- Dependencies needed to compile this project. -->
+	<dependencies>
+		<!-- PathVisio -->
+		<dependency>
+			<groupId>org.pathvisio</groupId>
+			<artifactId>org.pathvisio.core</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<!-- JGoodies Forms -->
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>jgoodies-forms</artifactId>
+			<version>1.8.0</version> <!-- older version for FontChooser.java -->
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -38,19 +53,4 @@
 		</plugins>
 	</build>
 
-	<!-- Dependencies needed to compile this project. -->
-	<dependencies>
-		<!-- PathVisio -->
-		<dependency>
-			<groupId>org.pathvisio</groupId>
-			<artifactId>org.pathvisio.core</artifactId>
-			<version>${revision}</version>
-		</dependency>
-		<!-- JGoodies Forms -->
-		<dependency>
-			<groupId>com.jgoodies</groupId>
-			<artifactId>jgoodies-forms</artifactId>
-			<version>1.8.0</version> <!-- older version for FontChooser.java -->
-		</dependency>
-	</dependencies>
 </project>

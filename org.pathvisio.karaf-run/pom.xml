@@ -5,7 +5,7 @@
 		<groupId>org.pathvisio</groupId>
 		<artifactId>pathvisio</artifactId>
 		<version>${revision}</version>
-    </parent>
+	</parent>
 
 	<properties>
 		<bundle.namespace>org.pathvisio.karaf-run</bundle.namespace>
@@ -15,13 +15,12 @@
 	<name>org.pathvisio.karaf-run</name>
 	<packaging>pom</packaging>
 
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
-				<version>4.3.3</version>
+				<version>${karaf.version}</version>
 				<executions>
 					<execution>
 						<id>run</id>
@@ -29,7 +28,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<karafDistribution>mvn:org.apache.karaf/apache-karaf/4.3.3/zip</karafDistribution>
+							<karafDistribution>mvn:org.apache.karaf/apache-karaf/${karaf.version}/zip</karafDistribution>
 							<keepRunning>true</keepRunning>
 							<deployProjectArtifact>false</deployProjectArtifact>
 						</configuration>
