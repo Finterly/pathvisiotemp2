@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.pathvisio</groupId>
+		<artifactId>pathvisio</artifactId>
+		<version>${revision}</version>
+    </parent>
+
+	<properties>
+		<bundle.namespace>org.pathvisio.karaf-run</bundle.namespace>
+	</properties>
+
+	<artifactId>org.pathvisio.karaf-run</artifactId>
+	<name>org.pathvisio.karaf-run</name>
+	<packaging>pom</packaging>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.karaf.tooling</groupId>
+				<artifactId>karaf-maven-plugin</artifactId>
+				<version>4.3.3</version>
+				<executions>
+					<execution>
+						<id>run</id>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<karafDistribution>mvn:org.apache.karaf/apache-karaf/4.3.3/zip</karafDistribution>
+							<keepRunning>true</keepRunning>
+							<deployProjectArtifact>false</deployProjectArtifact>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
