@@ -111,7 +111,6 @@
 							<bundle>mvn:org.pathvisio.pluginmanager/${revision}</bundle>
 							<bundle>mvn:org.pathvisio.launcher/${revision}</bundle>
 						</feature>
-						>
 					</bootFeatures>
 					<bootFeatures>
 						<feature>standard</feature>

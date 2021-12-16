@@ -53,20 +53,20 @@
 		<maven-replacer-plugin.version>1.4.1</maven-replacer-plugin.version>
 
 		<!-- BridgeDB versions -->
-		<bridgedb.version>3.0.9</bridgedb.version>
+		<bridgedb.version>3.0.11</bridgedb.version>
 
 	</properties>
 
 
 	<modules>
-		<!-- order? -->
+		<module>org.pathvisio.karaf-run</module>
 		<module>org.pathvisio.core</module>
 		<module>org.pathvisio.gui</module>
 		<module>org.pathvisio.desktop</module>
 		<module>org.pathvisio.pluginmanager</module>
-		<module>org.pathvisio.launcher</module>
-		<!--<module>org.pathvisio.features</module>-->
-		<module>org.pathvisio.assembly</module>
+		<!-- <module>org.pathvisio.launcher</module>-->
+		<!-- <module>org.pathvisio.assembly</module> -->
+		<!-- <module>org.pathvisio.features</module>-->
 	</modules>
 
 	<!-- Common dependencies -->
@@ -148,7 +148,7 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin>			
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
