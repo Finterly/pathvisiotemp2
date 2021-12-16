@@ -33,8 +33,12 @@ import org.pathvisio.pluginmanager.impl.PluginManager;
 public class Activator implements BundleActivator {
 
 	public void start(BundleContext context) throws Exception {
+		System.out.println("Pathvisio Plugin Manager Bundle Started !!!!");
+
 		IPluginManager manager = new PluginManager(context);
 		context.registerService(IPluginManager.class.getName(), manager, null);
+		
+		System.out.println("Pathvisio Plugin Manager Bundle Running Successfully !!!!");
 	}
 
 	public void stop(BundleContext context) throws Exception {

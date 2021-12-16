@@ -57,7 +57,6 @@
 
 	</properties>
 
-
 	<modules>
 		<module>org.pathvisio.karaf-run</module>
 		<module>org.pathvisio.core</module>
@@ -114,10 +113,10 @@
 		</dependency>
 	</dependencies>
 
-
+	<!--
 	<build>
 		<defaultGoal>clean install </defaultGoal>
-		<!--
+	
 		<resources>
 			<resource>
 				<directory>src/main/feature</directory>
@@ -125,7 +124,7 @@
 				<targetPath>${project.build.directory}/feature</targetPath>
 			</resource>
 		</resources>
-		-->
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -152,25 +151,25 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<!-- Tests? -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<skipTests>true</skipTests> <!-- for now -->
+					<skipTests>true</skipTests> 
 					<argLine>-Xmx256m</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>
 			</plugin>
-			<!-- Generates the OSGi metadata based on the osgi.bnd file. 
+		
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<version>${maven-bundle-plugin.version}</version>
 			</plugin>
-			-->
+
 		</plugins>
 	</build>
+	-->
 
 </project>
